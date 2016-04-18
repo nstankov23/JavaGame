@@ -1,7 +1,12 @@
 package game;
 
 import contracts.Updatable;
+import gfx.Assets;
 import gfx.SpriteSheet;
+import input.InputHandler;
+import state.GameState;
+import state.State;
+import state.StateManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -17,9 +22,11 @@ public class GameEngine implements Runnable, Updatable {
     //drawing fields
     private Graphics graphics;
     private BufferStrategy bs;
-
     private SpriteSheet spriteSheet;
-    //temporary fields
+    public static InputHandler inputHandler;
+
+    private State currentState;
+
 
 
     public GameEngine(String title, int width, int height){
@@ -36,6 +43,13 @@ public class GameEngine implements Runnable, Updatable {
         this.bs = this.display.getCanvas().getBufferStrategy();
         this.graphics = this.bs.getDrawGraphics();
         this.spriteSheet = new SpriteSheet("/images/Ship/Spritesheet_64x29.png");
+        Assets.init();
+        this.inputHandler = new InputHandler(this.display.getFrame());
+
+        this.currentState = new GameState(this);
+        StateManager.setCurrentState(new GameState(this));
+
+
 
     }
 
@@ -43,7 +57,9 @@ public class GameEngine implements Runnable, Updatable {
 
     @Override
     public void tick() {
-
+        if (StateManager.getCurrentState() != null){
+            StateManager.getCurrentState().tick();
+        }
     }
 
     @Override
@@ -52,9 +68,12 @@ public class GameEngine implements Runnable, Updatable {
         graphics.clearRect(0,0,this.width,this.height);
         //start drawing
 
-        graphics.drawImage(this.spriteSheet.crop(0,0,64,29),0,0,null);
-        //graphics.drawImage(ImageLoader.loadImage("/images/Backgrounds/farback.gif"),0,0,null);
+
         //end drawing
+        if (StateManager.getCurrentState() != null) {
+            StateManager.getCurrentState().render(graphics);
+        }
+
         this.bs.show();
         graphics.dispose();
     }
@@ -63,10 +82,23 @@ public class GameEngine implements Runnable, Updatable {
     @Override
     public void run() {
         init();
+        int fps = 60;
+        double ticksPerFrame = 1_000_000_000.0 / fps;
+        double delta = 0;
+        long now;
+        long lastTimeTicked = System.nanoTime();
+
 
         while (isRunning){
-            tick();
-            render(this.graphics);
+            now = System.nanoTime();
+            delta += (now-lastTimeTicked) / ticksPerFrame;
+
+            lastTimeTicked = now;
+            if (delta >= 1) {
+                tick();
+                render(this.graphics);
+                delta--;
+            }
         }
         stop();
     }
