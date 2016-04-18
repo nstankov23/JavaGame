@@ -1,11 +1,12 @@
 package entities.creatures;
 
 import contracts.Intersectable;
+import contracts.Shooting;
 import gfx.Assets;
 
 import java.awt.*;
 
-public class Enemy extends Creature implements Intersectable {
+public class Enemy extends Creature implements Intersectable, Shooting {
     private final  int DEFAULT_DAMAGE = 5;
     private int velocityModifier;
 
@@ -37,5 +38,10 @@ public class Enemy extends Creature implements Intersectable {
 
     public void setVelocityModifier(int velocityModifier) {
         this.velocityModifier = velocityModifier;
+    }
+
+    @Override
+    public void shoot() {
+
     }
 }

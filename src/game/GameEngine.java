@@ -43,6 +43,7 @@ public class GameEngine implements Runnable, Updatable {
         this.bs = this.display.getCanvas().getBufferStrategy();
         this.graphics = this.bs.getDrawGraphics();
         this.spriteSheet = new SpriteSheet("/images/Ship/Spritesheet_64x29.png");
+        this.spriteSheet = new SpriteSheet("/images/PlayerBullet/bullet.png");
         Assets.init();
         this.inputHandler = new InputHandler(this.display.getFrame());
 
@@ -67,8 +68,8 @@ public class GameEngine implements Runnable, Updatable {
         graphics = this.bs.getDrawGraphics();
         graphics.clearRect(0,0,this.width,this.height);
         //start drawing
-
-
+        //graphics.drawImage(Assets.playerBullet, 100, 100, null);
+        //graphics.drawImage(this.spriteSheet.crop(0,0,100,100), 100,100, null);
         //end drawing
         if (StateManager.getCurrentState() != null) {
             StateManager.getCurrentState().render(graphics);
