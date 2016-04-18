@@ -15,6 +15,10 @@ public class Enemy extends Creature implements Intersectable {
         this.setVelocityModifier(1);
     }
 
+    public int getX(){
+        return this.x;
+    }
+
     @Override
     public void tick() {
         this.x -= this.getVelocity();

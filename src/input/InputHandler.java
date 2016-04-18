@@ -33,6 +33,10 @@ public class InputHandler implements KeyListener {
         if (keyCode == KeyEvent.VK_RIGHT){
             right = true;
         }
+
+        if (keyCode == KeyEvent.VK_SPACE){
+            space = true;
+        }
     }
 
     @Override
@@ -49,6 +53,9 @@ public class InputHandler implements KeyListener {
         }
         if (keyCode == KeyEvent.VK_RIGHT){
             right = false;
+        }
+        if (keyCode == KeyEvent.VK_SPACE){
+            space = false;
         }
     }
 }
