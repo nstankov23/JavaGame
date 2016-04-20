@@ -1,15 +1,15 @@
 package entities;
 
+import contracts.Intersectable;
 import contracts.Updatable;
 
 import java.awt.*;
 
-public abstract class Entity implements Updatable {
+public abstract class Entity implements Updatable, Intersectable {
     protected int x, y;
     protected  int width, height;
-    private int velocity;
-
-    private Rectangle boundingBox;
+    protected int velocity;
+    protected Rectangle boundingBox;
 
     public Entity(int x, int y, int width, int height){
         this.x = x;

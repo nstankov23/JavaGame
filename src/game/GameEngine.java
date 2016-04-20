@@ -2,7 +2,6 @@ package game;
 
 import contracts.Updatable;
 import gfx.Assets;
-import gfx.SpriteSheet;
 import input.InputHandler;
 import state.GameState;
 import state.State;
@@ -18,11 +17,12 @@ public class GameEngine implements Runnable, Updatable {
     private boolean isRunning;
     //display fields
     private String title;
-    private int width,height;
+    private int width;
+    private int height;
     //drawing fields
     private Graphics graphics;
     private BufferStrategy bs;
-    private SpriteSheet spriteSheet;
+
     public static InputHandler inputHandler;
 
     private State currentState;
@@ -31,19 +31,18 @@ public class GameEngine implements Runnable, Updatable {
 
     public GameEngine(String title, int width, int height){
         this.title = title;
-        this.width = width;
-        this.height = height;
+        this.setWidth(width);
+        this.setHeight(height);
 
 
     }
 
     private void init(){
-        this.display = new GameWindow(this.title , this.width, this.height);
+        this.display = new GameWindow(this.title , this.getWidth(), this.getHeight());
         this.display.getCanvas().createBufferStrategy(2);
         this.bs = this.display.getCanvas().getBufferStrategy();
         this.graphics = this.bs.getDrawGraphics();
-        this.spriteSheet = new SpriteSheet("/images/Ship/Spritesheet_64x29.png");
-        this.spriteSheet = new SpriteSheet("/images/PlayerBullet/bullet.png");
+
         Assets.init();
         this.inputHandler = new InputHandler(this.display.getFrame());
 
@@ -66,10 +65,10 @@ public class GameEngine implements Runnable, Updatable {
     @Override
     public void render(Graphics graphics) {
         graphics = this.bs.getDrawGraphics();
-        graphics.clearRect(0,0,this.width,this.height);
+        graphics.clearRect(0,0, this.getWidth(), this.getHeight());
         //start drawing
-        //graphics.drawImage(Assets.playerBullet, 100, 100, null);
-        //graphics.drawImage(this.spriteSheet.crop(0,0,100,100), 100,100, null);
+
+
         //end drawing
         if (StateManager.getCurrentState() != null) {
             StateManager.getCurrentState().render(graphics);
@@ -128,4 +127,19 @@ public class GameEngine implements Runnable, Updatable {
 
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
 }

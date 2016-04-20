@@ -3,5 +3,5 @@ package contracts;
 import java.awt.*;
 
 public interface Intersectable {
-    public boolean intersects (Rectangle rect);
+    public boolean intersect(Rectangle enemyBoundingBox);
 }
