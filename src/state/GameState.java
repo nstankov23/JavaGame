@@ -111,8 +111,7 @@ public class GameState extends State {
 
 
         if (this.getPlayer().getHealth() <= 0){
-            System.out.println("You died!");
-            game.stop();
+            StateManager.setCurrentState(new EndGameState(game, "Game over!"));
         }
 
         if (score % 500 == 0){
